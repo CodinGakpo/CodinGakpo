@@ -5,7 +5,7 @@
 </h1>
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/adidev-anand/adidev-anand/output/github-contribution-grid-snake-dark.svg" />
+  <img src="https://raw.githubusercontent.com/CodinGakpo/CodinGakpo/output/github-contribution-grid-snake-dark.svg" />
 </p>
 
 <h3 align="center">
@@ -30,7 +30,7 @@
 - Building scalable applications using **React, Django, FastAPI, PostgreSQL**
 - **AWS Certified Cloud Practitioner** — exploring Solution Architect, Docker, CI/CD, and infrastructure automation
 - Interested in **Cybersecurity, System Design, and scalable backend architecture**
-- 🏆 Hackathon winner ×2 — DevSoc'26 & Yantra'26 &nbsp;|&nbsp; Rank **10 / 2000+** at Neo Codeathon, VIT
+- 🏆 2x Hackathon winner — DevSoc'26 & Yantra'26 &nbsp;|&nbsp; Rank **10 / 2000+** at Neo Codeathon, VIT
 - Open to internships, collaborations, and open-source work
 
 ---
