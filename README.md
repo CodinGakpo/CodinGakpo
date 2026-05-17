@@ -40,7 +40,7 @@
 | Event | Track | Role |
 |---|---|---|
 | DevSoc'26 — CodeChef | Tech for Good | Backend architecture & system stability |
-| Yantra'26 Central Hack | CSIT | Backend architecture & system stability |
+| Yantra'26 Central Hack | CS/IT | Backend architecture & system stability |
 | Neo Codeathon — VIT | Competitive Coding | **Rank 10 / 2000+** |
 
 ---
