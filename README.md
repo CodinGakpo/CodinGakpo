@@ -149,7 +149,7 @@ Full-stack scheduling platform with:
 
 📧 anandadidev43@gmail.com
 
-🔗 [linkedin.com/in/adidev-anand](https://linkedin.com/in/adidev-anand)
+🔗 [linkedin.com/in/adidev-anand](https://linkedin.com/in/adidevanand)
 
 ---
 
