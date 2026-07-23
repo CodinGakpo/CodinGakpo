@@ -9,11 +9,11 @@
 </p>
 
 <h3 align="center">
-  Full Stack Developer &nbsp;•&nbsp; Cloud & DevOps Enthusiast &nbsp;•&nbsp; Information Security
+  Backend & Cloud Engineer &nbsp;•&nbsp; Distributed Systems &nbsp;•&nbsp; Information Security
 </h3>
 
 <p align="center">
-  I build scalable full-stack applications, AI-powered systems, and cloud-native solutions with real-world impact.
+  I build production-deployed backend systems, cloud-native infrastructure, and security-focused applications with real-world impact.
 </p>
 
 <!-- ===================== HERO IMAGE 1 ===================== -->
@@ -27,9 +27,9 @@
 # About Me
 
 - Final-year **B.Tech Information Security** student at VIT Vellore &nbsp;|&nbsp; CGPA: **9.11**
-- Building scalable applications using **React, Django, FastAPI, PostgreSQL**
-- **AWS Certified Cloud Practitioner** — exploring Solution Architect, Docker, CI/CD, and infrastructure automation
-- Interested in **Cybersecurity, System Design, and scalable backend architecture**
+- Building distributed backend systems using **Python, Go, Django, FastAPI, PostgreSQL, Redis**
+- **AWS Certified Solutions Architect (SAA-C03)** &nbsp;|&nbsp; exploring Security Specialty next
+- Interested in **Cybersecurity, distributed systems, and cloud infrastructure**
 - 🏆 2x Hackathon winner — DevSoc'26 & Yantra'26 &nbsp;|&nbsp; Rank **10 / 2000+** at Neo Codeathon, VIT
 - Open to internships, collaborations, and open-source work
 
@@ -47,53 +47,98 @@
 
 # Projects
 
-## 🗺 ReportMitra — Live AI Civic Issue Reporting Platform
+## 🔒 Keyhole — Confidential Code Execution Sandbox
 
-Full-stack civic issue reporting platform powered by live AI:
+Runs untrusted or AI-generated code against private data and releases **only a small, typed,
+cryptographically-attested answer** — so bulk data exfiltration is structurally impossible, not
+just scanned for.
 
-- Citizens report local issues (potholes, streetlights, sanitation) via geo-tagged submissions
-- **CNN model** auto-classifies issues by department and routes them via async Celery/Redis pipeline
-- **Blockchain integration** for tamper-proof audit trails (Ethereum Sepolia testnet)
-- Real-time geo-mapping with Leaflet, OAuth login, S3 media storage
-- Production-deployed on AWS (EC2 + Nginx + Gunicorn, RDS MySQL, S3/CloudFront, Route53, ACM)
+- **Bandwidth-bounded exit gate**: untrusted code may return only a caller-declared narrow schema
+  (int / enum / bounded string) — a few-byte exit makes bulk exfiltration a bandwidth problem, not
+  a content-scanning one
+- **Signed attestations** (ed25519 / AWS KMS) verify exactly what code ran, on what data, with zero
+  egress, and what bounded value came out
+- **Cumulative exit-bandwidth budget** bounds drip exfiltration across many calls, not just per-run
+- Deployed to a live AWS account (Lambda control plane, ECS Fargate sandbox, DynamoDB audit log,
+  KMS-backed signing) via Terraform, on a **no-NAT, empty-IAM-role** network design — verified idle
+  cost of **$0.12 over 2–3 days**
+- Adversarial test suite (dump, encode-in-bounded-string, drip-exfiltration-across-runs) confirmed
+  structurally blocked, not pattern-matched
+- AI-paired development (architecture directed and iterated with Claude Code), personally reviewed,
+  tested, and deployed end-to-end
 
-**Stack:** Django · React + Vite · AWS EC2/S3/RDS · Celery/Redis · CNN (Keras) · Blockchain · Leaflet · GitHub Actions CI/CD
-
----
-
-## 🩺 DrDeepti — Patient Appointment Booking & Management System
-
-Production-deployed appointment platform for a Delhi-based clinic — [drdeeptientdelhi.in](https://drdeeptientdelhi.in):
-
-- **Real-time slot booking** with conflict prevention and live availability display
-- **Admin dashboard** for hospital staff to manage appointments, view patient records, and track daily capacity
-- Full-stack deployment across Render (backend) and Vercel (frontend)
-
-**Stack:** Django · React · PostgreSQL · Render · Vercel
+**Stack:** Python · AWS Lambda · ECS Fargate · DynamoDB · KMS · Terraform
 
 ---
 
-## 🛡 AI Fraud Detection System
+## 🛡 ShieldStream — Distributed API Security Gateway
 
-Real-time fraud detection platform using:
+A horizontally-scalable API security proxy enforcing distributed rate limiting, OWASP threat
+detection, and real-time telemetry across concurrent gateway replicas.
 
-- Isolation Forest ML models
-- FastAPI backend
-- LangChain + OpenAI integration
-- Explainable AI insights
-- Admin analytics dashboard
+- **Atomic sliding-window rate limiter** using Redis Sorted Sets + Lua scripting — eliminates race
+  conditions across replicas without distributed locks
+- **At-least-once event pipeline** via Redis Streams consumer groups (XREADGROUP / XACK /
+  XAUTOCLAIM), feeding batched idempotent upserts into TimescaleDB
+- Real-time threat telemetry dashboard (Next.js, WebSocket, Redis Pub/Sub fan-out)
+- Fail-open circuit breakers, exponential-backoff retries, and consumer-lag alerting for graceful
+  degradation under failure
+
+**Stack:** FastAPI · Redis · PostgreSQL · TimescaleDB · Next.js · AWS ECS
 
 ---
 
-## 📅 Smart Meeting Scheduler
+## 🏛 JanSaathi — Civic Issue Reporting Platform
 
-Full-stack scheduling platform with:
+Full-stack civic reporting platform connecting citizens to local government departments, rebuilt
+from an earlier prototype (ReportMitra) into a production-grade v2.
 
-- Google Calendar integration
-- Firebase Authentication
-- Smart availability management
-- React + Tailwind frontend
-- FastAPI backend + PostgreSQL
+- **DigiLocker-first signup, OTP-first login** — UUID-based citizen identity replacing unverified
+  phone numbers as the primary key
+- AI-based issue classification routing reports to the correct department
+- Production AWS stack (EC2 + RDS + S3 + CloudFront + Route53 + ACM) provisioned from scratch, with
+  IAM OIDC-based GitHub Actions auth replacing long-lived access keys
+- Zero-downtime rolling deploys via multi-repo CI/CD; cron-based EC2/RDS lifecycle automation to cut
+  idle cost
+- 🏆 Winner, DevSoc'26 Tech for Good track (150+ participants)
+
+**Stack:** Go · Gin · React · PostgreSQL · GCP · AWS EC2/S3/RDS · GitHub Actions
+
+---
+
+## 🩺 DrDeepti — Clinic Booking Platform & WhatsApp Assistant
+
+Production-deployed appointment platform for a Delhi-based clinic — live with **30+ active users**.
+
+- **Database-level row locking** in the booking transaction path, preventing double-bookings under
+  concurrent access
+- Phone number **OTP verification** on the patient booking flow to prevent spam and unauthorized
+  bookings
+- Dedicated authentication isolating doctor-facing endpoints from the public booking flow
+- Conversational booking assistant on **WhatsApp Business API** (FastAPI, AWS Lambda) via the Meta
+  Developer platform
+
+**Stack:** Django · React · PostgreSQL (NeonDB) · FastAPI · AWS Lambda · Vercel · Render
+
+---
+
+## 📄 DocuMiner — AI-Powered Enterprise Security Analysis (Patent-Disclosed)
+
+A three-phase autonomous intelligence pipeline that turns raw, unstructured enterprise documents
+(PDFs, spreadsheets, scanned images) into executed security actions — OCR + NLP preprocessing with
+intelligent PII pseudonymization, an agentic LLM layer for zero-shot document classification, and an
+autonomous layer combining a stateful risk engine, a security knowledge graph, and a digital twin
+simulation for pre-deployment mitigation validation.
+
+- Patent disclosure filed (co-authored); the patentability search confirmed the architecture as
+  **novel with a genuine inventive step** over all cited prior art
+- Ultimately excluded from patentability under **Section 3(k) of the Indian Patents Act**, which
+  categorically excludes software/algorithms from patent protection in India — a legal boundary, not
+  a technical one
+- Built the web backend end-to-end, configured the OCR/document-processing pipeline, and wired in
+  the LangChain layer connecting extraction to agentic reasoning
+
+**Stack:** Python · LangChain · spaCy · FastAPI · Pandas
 
 ---
 
@@ -101,25 +146,28 @@ Full-stack scheduling platform with:
 
 ## Languages
 ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
-![Java](https://img.shields.io/badge/java-%23007396.svg?style=for-the-badge&logo=openjdk&logoColor=white)
+![Go](https://img.shields.io/badge/go-%2300ADD8.svg?style=for-the-badge&logo=go&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/javascript-%230A192F.svg?style=for-the-badge&logo=javascript&logoColor=F7DF1E)
-![C++](https://img.shields.io/badge/c++-%2300599C.svg?style=for-the-badge&logo=c%2B%2B&logoColor=white)
+![Java](https://img.shields.io/badge/java-%23007396.svg?style=for-the-badge&logo=openjdk&logoColor=white)
 
 ---
 
-## 🌐 Full Stack Development
-![React](https://img.shields.io/badge/react-%23007ACC.svg?style=for-the-badge&logo=react&logoColor=white)
+## 🌐 Backend & Full Stack
 ![Django](https://img.shields.io/badge/django-%23092E20.svg?style=for-the-badge&logo=django&logoColor=white)
 ![FastAPI](https://img.shields.io/badge/FastAPI-%2300C7B7.svg?style=for-the-badge&logo=fastapi&logoColor=white)
-![Firebase](https://img.shields.io/badge/firebase-%23039BE5.svg?style=for-the-badge&logo=firebase)
+![Gin](https://img.shields.io/badge/gin-%2300ADD8.svg?style=for-the-badge&logo=go&logoColor=white)
+![React](https://img.shields.io/badge/react-%23007ACC.svg?style=for-the-badge&logo=react&logoColor=white)
+![Next.js](https://img.shields.io/badge/next.js-%23000000.svg?style=for-the-badge&logo=next.js&logoColor=white)
 ![Postgres](https://img.shields.io/badge/postgres-%2300758F.svg?style=for-the-badge&logo=postgresql&logoColor=white)
+![Redis](https://img.shields.io/badge/redis-%23DC382D.svg?style=for-the-badge&logo=redis&logoColor=white)
 
 ---
 
 ## ☁️ Cloud & DevOps
 ![AWS](https://img.shields.io/badge/AWS-%230A192F.svg?style=for-the-badge&logo=amazon-aws&logoColor=FF9900)
+![Terraform](https://img.shields.io/badge/terraform-%235835CC.svg?style=for-the-badge&logo=terraform&logoColor=white)
 ![Docker](https://img.shields.io/badge/docker-%23007ACC.svg?style=for-the-badge&logo=docker&logoColor=white)
-![Jenkins](https://img.shields.io/badge/jenkins-%231E293B.svg?style=for-the-badge&logo=jenkins&logoColor=white)
+![GitHub Actions](https://img.shields.io/badge/github%20actions-%232671E5.svg?style=for-the-badge&logo=githubactions&logoColor=white)
 ![Linux](https://img.shields.io/badge/Linux-%230A192F.svg?style=for-the-badge&logo=linux&logoColor=FCC624)
 ![Git](https://img.shields.io/badge/git-%230A192F.svg?style=for-the-badge&logo=git&logoColor=F05032)
 
@@ -129,11 +177,10 @@ Full-stack scheduling platform with:
 
 | Certification | Domain |
 |---|---|
-| Solution Architect Associate (In Progress) | Cloud |
-| DevOps & CI/CD — IBM | Cloud / DevOps |
-| Introduction to Cybersecurity — Google | Cybersecurity |
-| 9-course Backend Development — Meta | Full Stack |
-<!-- | AWS Cloud Practitioner | Cloud | -->
+| AWS Certified Solutions Architect – Associate (SAA-C03) | Cloud |
+| Meta Back-End Developer Professional Certificate | Full Stack |
+| Google Foundations of Cybersecurity | Cybersecurity |
+| McKinsey Forward Program | Professional Development |
 
 ---
 
@@ -149,7 +196,9 @@ Full-stack scheduling platform with:
 
 📧 anandadidev43@gmail.com
 
-🔗 [linkedin.com/in/adidev-anand](https://linkedin.com/in/adidevanand)
+🔗 [linkedin.com/in/adidev-anand](https://linkedin.com/in/adidevanand/)
+
+🌐 [Portfolio](https://exec-adidev.vercel.app/)
 
 ---
 
