@@ -26,7 +26,7 @@
 
 # About Me
 
-- Final-year **B.Tech Information Security** student at VIT Vellore &nbsp;|&nbsp; CGPA: **9.13**
+- Final-year **B.Tech Information Security** student at VIT Vellore &nbsp;|&nbsp; CGPA: **9.11**
 - Building scalable applications using **React, Django, FastAPI, PostgreSQL**
 - **AWS Certified Cloud Practitioner** — exploring Solution Architect, Docker, CI/CD, and infrastructure automation
 - Interested in **Cybersecurity, System Design, and scalable backend architecture**
