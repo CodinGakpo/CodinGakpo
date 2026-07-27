@@ -196,7 +196,7 @@ simulation for pre-deployment mitigation validation.
 
 📧 anandadidev43@gmail.com
 
-🔗 [linkedin.com/in/adidev-anand](https://linkedin.com/in/adidevanand/)
+🔗 [linkedin.com/in/adidevanand](https://linkedin.com/in/adidevanand/)
 
 🌐 [Portfolio](https://exec-adidev.vercel.app/)
 
